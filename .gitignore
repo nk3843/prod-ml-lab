@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+outputs/
+.env
+data/
+*.parquet
+models/*.bin
+*.pkl
+.DS_Store
