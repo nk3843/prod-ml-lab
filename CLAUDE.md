@@ -6,12 +6,24 @@
   measured before the next starts. Never build ahead of the current layer.
 - Be deliberate about failure modes. Before building each layer, list how it
   could fail silently, then add a test or check for each one.
-- I (Claude) write the grunt work: data download/cleaning scripts, training and
-  eval code, API, Dockerfile, CI, dashboards, README scaffolding.
-- Narrate as I go: before each step say what I'm doing and why, in a sentence
-  or two, so the user can follow and repeat it.
-- The user owns: predictions before every run, the failure-mode analysis
-  conclusions, and the takeaway line in results.md for each run.
+- Division of work. The test: if getting it wrong teaches something, the user
+  writes it; if it's mostly typing, Claude writes it.
+  - User writes (core): cleaning rules, time-based split, slice evaluation,
+    baseline and GBM training (L1); features.py and the train/serve skew test
+    (L2); pydantic input schema and validation rules, benchmark design (L3);
+    drift metric and alert thresholds (L5); choosing and predicting each
+    failure (L6); promotion decision logic (L7).
+  - Claude writes (grunt work): env setup, Makefile, data download (setup);
+    FastAPI skeleton, logging, health endpoint (L3); Dockerfile, CI, deploy
+    config (L4); log storage, dashboard shell, late-label join (L5);
+    load-test and drift-replay harnesses (L6); README scaffolding, diagrams.
+  - For each core piece Claude gives a spec (inputs, outputs, failure modes to
+    handle), the user writes and runs it, Claude reviews Socratically: questions
+    first, then hints, code only if stuck. Claude writes a layer's grunt-work
+    skeleton first so the user's core plugs into it (L1 starts from a notebook).
+- Narrate grunt work: before each step say what and why in a sentence or two.
+- The user also owns: predictions before every run and the takeaway line in
+  results.md for each run.
 - Be Socratic on concepts. When the user is stuck, ask questions first, then
   hint, and only explain or show code if that fails.
 - Ask for a prediction before any experiment or run that produces a number.
